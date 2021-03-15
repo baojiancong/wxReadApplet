@@ -1,0 +1,90 @@
+/* pages/searchPage/searchPage.wxss */
+.search-box{
+  width: 100%;
+  height:4rem;
+  background-color: #1E90FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search{
+  width: 90%;
+  height: 2rem;
+  display: flex;
+  border-radius: 2rem;
+  background: white;
+  align-items: center;
+}
+.search-icon{
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 1rem;
+}
+.search-input{
+  height: 1.5rem;
+  width: 75%;
+}
+
+.list{
+  width: 100%;
+}
+
+.item{
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  margin:.1rem 0;
+}
+
+.item:hover{
+  background: rgba(0,0,0,.1);
+}
+
+.left{
+  width: 20%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  padding-left:5%;
+}
+.book-cover{
+  width: 80%;
+  height: 100%;
+  border-radius: 5%;
+}
+.right{
+  display: flex;
+  flex-direction: column;
+  flex:1;
+}
+span{
+  padding: .5rem 0;
+}
+
+/* 历史记录 */
+.top{
+  width: 100%;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom:1px solid rgba(0,0,0,.1);
+}
+.trash{
+  height: 1.2rem;
+  width: 1.2rem;
+  padding-right: 5%;
+}
+
+.history-record{
+  width: 100%;
+  height: 2rem;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  display: flex;
+  align-items: center;
+}
+
+span{
+  padding-left:5%;
+}

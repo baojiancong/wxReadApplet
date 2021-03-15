@@ -1,0 +1,134 @@
+<!--pages/bookDetail/bookDetail.wxml-->
+<!-- 小说详细信息 -->
+<view class="book-detail">
+  <view class="book-detail-left">
+    <image class="book-cover"src="{{bookinfo.novel_cover ? bookinfo.novel_cover : '/pages/images/noBook.png'}}"></image>
+  </view>
+  <view class="book-detail-right">
+    <view class="book-name">{{bookinfo.novel_name}}</view>
+    <view class="book-author">{{bookinfo.novel_author}}</view>
+    <ul class="book-info">
+      <li>{{bookinfo.novel_type}}</li>
+      <li> · </li>
+      <li>{{bookinfo.novel_state}}</li>
+    </ul>
+  </view>
+</view>
+<!-- 小说热度、收藏数 -->
+<view class="book-hot">
+  <view class="book-hits">热度: <span>{{bookinfo.novel_hits + hots}}</span></view>
+  <view class="book-wish">收藏: <span>{{wishCount}}</span></view>
+</view>
+<!-- 小说简介 -->
+<view class="book-intro" wx:if="{{showSwitch}}">
+  <p class="{{txtHidden ? 'content txt-show' : 'content txt-hidden'}}">{{bookinfo.novel_intro}}</p>
+  <p class="tip"><span class="msg" bindtap="showSwitch">{{txtHidden ? '展开更多' : '收起简介'}}</span></p>
+</view>
+<view class="book-intro" wx:if="{{!showSwitch}}">
+  <p class="content">{{bookinfo.novel_intro}}</p>
+</view>
+
+<!-- 模块分割线 -->
+<view class="line"></view>
+
+<!-- 评论模块 -->
+<view class="comment-box">
+  <view class="comment-title">
+    <ul class="book-comment-info">
+      <li>书评</li>
+      <li> · </li>
+      <li>{{commentCount}}</li>
+    </ul>
+    <view class="go-comment" bindtap="writeComment">
+      我要评论  <span class="weui-icon-arrow"></span>
+    </view>
+  </view>
+  <view class="user-comment-box" wx:for="{{commentinfo}}">
+    <view class="comment-item">
+      <view class="user-header">
+        <image class="user-header-pic" src="{{item.user_header}}"></image>
+      </view>
+      <view class="user-comment-detail">
+        <view class="user-name">{{item.user_name}}</view>
+        <view class="user-content">{{item.user_comment}}</view>
+        <view class="user-publish-time">{{item.comment_time}}</view>
+      </view>
+        <ul class="stars" wx:if="{{item.score == 0}}">
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        </ul>
+        <ul class="stars" wx:elif="{{item.score == 1}}">
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        </ul>
+        <ul class="stars" wx:elif="{{item.score == 2}}">
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        </ul>
+        <ul class="stars" wx:elif="{{item.score == 3}}">
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        </ul>
+        <ul class="stars" wx:elif="{{item.score == 4}}">
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        </ul>
+        <ul class="stars" wx:else>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+          <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        </ul>
+    </view>
+  </view>
+  <view class="no-comment" wx:if="{{commentinfo.length == 0}}">
+    <span>暂无评价</span>
+  </view>
+</view>
+<view wx:if="{{commentCount>5}}" style="margin-top:1rem;text-align:center;color:#1E90FF" bindtap="moreComment">查看全部评论({{commentCount}})</view>
+<view style="background:#fff;width:100%;height:5rem;"></view>
+<!-- 底部操作栏 -->
+<view class="footer">
+  <button class="btn-style"  wx:if="{{!hasLogin}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" >加入书架</button>
+  <button class="btn-style"  wx:if="{{hasLogin && !hasBook}}" bindtap="addBook" >加入书架</button>
+  <button class="btn-style dark" style="background: linear-gradient(to right,rgba(135,206,250,0.5) , #3c3c3c); " wx:if="{{hasLogin && hasBook}}">已在书架</button>
+  <button class="btn-style" bindtap="readPage">开始阅读</button>
+</view>
+
+<!-- 评论弹窗 -->
+<view class="wx-pop-shadow" wx:if="{{showPop}}">
+  <view class="pop-container">
+    <view class="pop-top">
+      <view class="weui-icon-cancel" bindtap="cancel_comment"></view>
+      <view class="pop-title">点评本书</view>
+      <view class="pop-submit"  data-bookinfo='{{bookinfo.novel_id}}' bindtap="submit_comment">发表</view>
+    </view>
+    <view class="line"></view>
+    <view class="score-container">
+      <view class="score-box">
+          <image class="star_score" wx:for="{{stars}}" src="{{item.flag==1?item.bgfImg:item.bgImg}}" data-index="{{index}}" bindtap="score"></image>
+      </view>
+      <span class="score-tip" wx:if="{{starScore === ''}}">轻点评分</span>
+      <span class="score-tip" wx:else>{{stars[starScore].tip}}</span>
+    </view>
+    <textarea name="evaContent" maxlength="100"  bindinput="getValue" value="{{userComment}}" class="weui-textarea" placeholder="请填写评价(最多100字)"></textarea>    
+  </view>
+</view>
+
+

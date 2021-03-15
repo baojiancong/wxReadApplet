@@ -1,0 +1,45 @@
+{
+  "pages":[ 
+    "pages/bookLibrary/bookLibrary",
+    "pages/allBook/allBook",
+    "pages/searchPage/searchPage",
+    "pages/readPage/readPage",
+    "pages/morePage/morePage",
+    "pages/bookShelf/bookShelf",
+    "pages/bookDetail/bookDetail",
+    "pages/personalCenter/personalCenter",
+    "pages/moreComment/moreComment",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#1E90FF",
+    "navigationBarTitleText": "阅读",
+    "navigationBarTextStyle":"white"
+  },
+  "tabBar": {
+    "list": [{
+      "pagePath": "pages/bookLibrary/bookLibrary",
+      "text": "首页",
+      "iconPath": "/pages/images/recommend-dark.png",
+      "selectedIconPath": "/pages/images/recommend.png"
+    },{
+      "pagePath": "pages/allBook/allBook",
+      "text": "书库",
+      "iconPath": "/pages/images/library.png",
+      "selectedIconPath": "/pages/images/library-active.png"
+    },{
+      "pagePath": "pages/bookShelf/bookShelf",
+      "text": "书架",
+      "iconPath": "/pages/images/shelf.png",
+      "selectedIconPath": "/pages/images/shelf-active.png"
+    },{
+      "pagePath": "pages/personalCenter/personalCenter",
+      "text": "我的",
+      "iconPath": "/pages/images/own.png",
+      "selectedIconPath": "/pages/images/own-active.png"
+    }]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

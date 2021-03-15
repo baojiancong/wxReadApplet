@@ -1,0 +1,26 @@
+/* components/search.wxss */
+.search-box{
+  width: 100%;
+  height: 4rem;
+  background-color: #1E90FF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search{
+  width: 80%;
+  height: 2rem;
+  display: flex;
+  border-radius: 2rem;
+  background: white;
+  align-items: center;
+}
+.search-icon{
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0 1rem;
+}
+.search-input{
+  height: 1.5rem;
+  width: 75%;
+}

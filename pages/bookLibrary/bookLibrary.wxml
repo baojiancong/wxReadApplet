@@ -1,0 +1,57 @@
+<!--pages/bookLibrary/bookLibrary.wxml-->
+<view class="bookLibrary">
+  <!-- 顶部轮播图 -->
+  <view class="top-carousel-map">
+    <swiper class="carousel-map" indicator-dots="true" autoplay="true" interval="2000" duration="1000">
+      <block wx:for="{{carouselList}}" wx:key="*this">
+        <swiper-item bindtap="goNovelDetail" data-bookinfo="{{item}}">
+          <image class="carousel-map-img" src="{{item.novel_cover || '/pages/images/1.png'}}" alt="" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- 热门推荐 -->
+    <view class="book-recommend">
+      <view class="book-recommend-head">
+        <view class="book-recommend-title">热门推荐</view>
+        <view class="book-recommend-more" bindtap="getMore">
+          <span>更多</span>
+          <span class="weui-icon-arrow"></span>
+        </view>
+      </view>
+        <view class="book-recommend-list">
+          <view wx:if="{{!recommendData}}" class="noRequest">暂无推荐数据</view>
+          <view class="book-item" wx:for="{{recommendList}}" wx:key="novel_id" data-bookinfo="{{item}}" bindtap="goNovelDetail">
+            <image class="book-cover" src="{{item.novel_cover ? item.novel_cover : '/pages/images/noBook.png'}}"></image>
+            <view class="book-name">{{item.novel_name}}</view>
+          </view>
+        </view>
+    </view>
+<!-- 最新排行 -->
+    <view class="book-rank">
+      <view class="book-rank-head">
+        <view class="book-rank-title">最新排行</view>
+        <view class="book-rank-more" bindtap="getMore">
+          <span>更多</span>
+          <span class="weui-icon-arrow"></span>
+        </view>
+      </view>
+      <view class="book-rank-list"> 
+        <view wx:if="{{!rankData}}" class="noRequest">暂无排行数据</view>
+        <view class="book-rank-item" wx:for="{{rankList}}" wx:key="novel_id" data-bookinfo="{{item}}" bindtap="goNovelDetail">
+          <view class="book-rank-cover">
+            <image class="book-rank-img" src="{{item.novel_cover ? item.novel_cover : '/pages/images/noBook.png'}}"></image>
+          </view>
+          <view class="book-rank-info">
+            <view class="book-rank-name">{{item.novel_name}}</view>
+            <view class="book-rank-intro">{{item.novel_intro}}</view>
+            <ul class="book-rank-detail">
+              <li>{{item.novel_type}}</li>
+              <li> · </li>
+              <li>{{item.novel_state}}</li>
+            </ul>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>

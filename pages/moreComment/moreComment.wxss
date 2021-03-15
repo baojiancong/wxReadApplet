@@ -1,0 +1,53 @@
+/* pages/moreComment/moreComment.wxss */
+/* 评论 */
+.comment-box{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.user-comment-box{
+  width: 100%;
+  margin-top:.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.comment-item{
+  width: 100%;
+  display: flex;
+  min-height: 6rem;
+
+}
+.user-header{
+  width: 15%;
+  text-align: center;
+}
+.user-header-pic{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-top:.2rem;
+}
+.user-comment-detail{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: .8rem;
+}
+.user-name{
+  font-weight: bold;
+}
+.stars{
+  width: 25%;
+  display: flex;
+  margin-top:.2rem;
+}
+.stars-pic{
+  width: 1rem;
+  height: 1rem;
+  background-size: 100% 100%;
+}
+.tip{
+  text-align: center;
+  padding:1rem;
+}

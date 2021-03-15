@@ -1,0 +1,280 @@
+/* pages/bookDetail/bookDetail.wxss */
+.book-detail{
+  margin-top:1rem;
+  width: 100%;
+  display: flex;
+}
+.book-detail-right{
+  width: 70%;
+  height: 7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-left:1rem;
+}
+.book-name{
+  font-weight: bold;
+}
+.book-author{
+  font-size: .8rem;
+}
+.book-info{
+  font-size: .8rem;
+}
+.book-detail-left{
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.book-cover{
+  width: 80%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: antiquewhite;
+}
+
+/* 小说热度、收藏数 */
+.book-hot{
+  margin-top:.5rem;
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.book-hits{
+  width: 50%;
+  height: 50%;
+  text-align: center;
+  font-size:.8rem;
+  font-weight: bold;
+}
+.book-wish{
+  width: 50%;
+  height: 50%;
+  text-align: center;
+  font-size:.8rem;
+  font-weight: bold;
+}
+span{
+  font-weight: 300;
+}
+
+/* 小说简介 */
+.book-intro{
+  margin-top:.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.content{
+  width: 90%;
+  display: -webkit-box;
+  -webkit-box-orient:vertical;
+  text-align: justify;
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  font-size:.8rem;
+}
+.content.txt-show{
+  -webkit-line-clamp:4;   
+}
+.content.txt-hidden{
+  -webkit-line-clamp:0; 
+}
+.tip{
+  width: 90%;
+  display: flex;
+  justify-content: flex-end;
+  color:#1E90FF;
+  font-size:.8rem;
+}
+
+/* 分割线 */
+.line{
+  width: 100%;
+  height: 0.3rem;
+  background-color: #3c3c3c;
+  opacity: .1;
+  margin-top:.5rem;
+}
+
+/* 书本评价 */
+.comment-box{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-title{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top:.5rem;
+}
+.book-comment-info{
+  width: 30%;
+  margin-left:1rem;
+  font-weight: bold;
+}
+.go-comment{
+  width: 70%;
+  font-size: .8rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right:1rem;
+  color: #1E90FF;
+}
+.weui-icon-arrow{
+  font-size: .8rem;
+  color: #1E90FF;
+}
+.user-comment-box{
+  width: 100%;
+  margin-top:.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.comment-item{
+  width: 100%;
+  display: flex;
+  min-height: 6rem;
+
+}
+.user-header{
+  width: 15%;
+  text-align: center;
+}
+.user-header-pic{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-top:.2rem;
+}
+.user-comment-detail{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: .8rem;
+}
+.user-name{
+  font-weight: bold;
+}
+.stars{
+  width: 25%;
+  display: flex;
+  margin-top:.2rem;
+}
+.stars-pic{
+  width: 1rem;
+  height: 1rem;
+  background-size: 100% 100%;
+}
+.interval{
+  width: 90%;
+  height: 0.1rem;
+  background-color: black;
+  opacity: .1;
+  margin-left:5%;
+  margin-top:.2rem;
+}
+
+.footer{
+  position: fixed;
+  width: 100%;
+  height: 3.5rem;
+  bottom:0;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.btn-style{
+  color:white;
+  width: 40% !important;
+  height: 2rem;
+  border-radius:2rem;
+  background: linear-gradient(to right,rgba(135,206,250,0.5) , #1E90FF); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 评论弹窗 */
+.wx-pop-shadow{
+  position: fixed;
+  left:0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 100;
+}
+.pop-container{
+  width: 100%;
+  height: 95%;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  position: fixed;
+  bottom:0;
+}
+.pop-top{
+  display: flex;
+  height: 3rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.weui-icon-cancel{
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-left:1rem;
+}
+.pop-title{
+  font-weight: bold;
+  font-size: .8;
+}
+.pop-submit{
+  color: red;
+  font-size: .8;
+  margin-right:1rem;
+}
+/* 五角星评分 */
+.score-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.score-box{
+  display: flex;
+  justify-content: center;
+  margin:1rem 0;
+}
+.star_score{
+  width: 2rem;
+  height: 2rem;
+}
+.score-tip{
+  color: red;
+  height: 1rem;
+  font-size: .8rem;
+}
+
+.weui-textarea{
+  width: 80%;
+  height: 15rem;
+  margin-left:10%;
+  background-color: #F5F5F5;	
+  margin-top:1.5rem;
+}
+/* 评论兜底样式 */
+.no-comment{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5rem;
+}

@@ -1,0 +1,24 @@
+<!--pages/morePage/morePage.wxml-->
+<view class="book-list">
+  <view wx:if="{{!request}}" class="noRequest"><span>暂无数据</span></view>
+  <view class="book-item" wx:for="{{bookList}}" wx:key="novel_id" data-bookinfo="{{item}}" bindtap="goNovelDetail">
+    <view class="book-cover">
+      <image class="book-img" src="{{item.novel_cover ? item.novel_cover : '/pages/images/noBook.png'}}"></image>
+    </view>
+    <view class="book-info">
+      <view class="book-name">{{item.novel_name}}</view>
+      <view class="book-intro">{{item.novel_intro}}</view>
+      <ul class="book-detail">
+        <li>{{item.novel_type}}</li>
+        <li> · </li>
+        <li>{{item.novel_state}}</li>
+      </ul>
+    </view>
+  </view>
+  <view class="tip" wx:if="{{!hasMore}}">
+    已经拉到底啦...
+  </view>
+  <view class="tip" wx:if="{{hasMore && bookList.length != 0}}">
+    正在拼命加载...
+  </view>
+</view>

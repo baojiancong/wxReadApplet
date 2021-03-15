@@ -1,0 +1,7 @@
+<!--components/search.wxml-->
+<view class="search-box">
+  <view class="search" bindtap="goSearchPage">
+    <image class="search-icon" src="/pages/images/search.png"></image>
+    <input class="search-input" disabled="true" type="text" placeholder="搜索" />
+  </view>
+</view>

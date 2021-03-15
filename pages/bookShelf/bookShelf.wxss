@@ -1,0 +1,107 @@
+/* pages/bookShelf/bookShelf.wxss */
+.book-shelf{
+  width: 100%;
+}
+.book-item{
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.book-cover-main{
+  width: 160rpx;
+  height: 80%;
+  border-radius: 5%;
+  margin-left:1rem;
+}
+
+.book-detail{
+  height: 60%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left:1rem;
+}
+.del{
+  background-color: #1E90FF;
+  width: 160rpx;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right:-160rpx;
+}
+.addBook{
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.btn{
+  width: 30%;
+  height: 2rem;
+  border-radius: 2rem 0 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right,rgb(135,206,250,0.5),#1E90FF);
+  color: white;
+}
+
+
+/* 未登录 */
+.unLogin{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user-info{
+  margin-top:20%;
+  width: 5rem;
+  height: 5rem;
+}
+.header{
+  width: 100%;
+  height: 100%;
+  background-size: 100%;
+}
+.login-btn{
+  height: 2rem;
+  background: linear-gradient(to right,rgba(135,206,250,0.5) , #1E90FF); 
+  border-radius: 2rem;
+  margin-top:30%;
+  color:#ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: .8rem;
+}
+
+.noBook-style{
+  position: fixed;
+  top:0;
+  width: 100%;
+  height: 100%;
+  left:0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+}

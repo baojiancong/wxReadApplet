@@ -1,0 +1,25 @@
+<!--pages/searchPage/searchPage.wxml-->
+<view class="search-box">
+  <view class="search">
+    <image class="search-icon" src="/pages/images/search.png"></image>
+    <input class="search-input" bindinput="handleInput" type="text" value="{{value}}" placeholder="搜索" />
+  </view>
+</view>
+<view class="history-box" wx:if="{{value == '' && history.length != 0}}">
+  <view class="top">
+    <span>历史记录</span>
+    <image class="trash" src="/pages/images/trash.png" bindtap="clearHistory"></image>
+  </view>
+  <view class="history-record" wx:for="{{history}}" wx:key="{{index}}" bindtap="checkHistory" data-item="{{item}}"><span>{{item}}</span></view>
+</view>
+<view class="list">
+  <view class="item" wx:for="{{bookList}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{index}}">
+  <view class="left">
+    <image class="book-cover" src="{{item.novel_cover}}"></image>
+  </view>
+  <view class="right">
+    <span>{{item.novel_name}}</span>
+    <span>{{'作者：' + item.novel_author}}</span>
+  </view>
+  </view>
+</view>

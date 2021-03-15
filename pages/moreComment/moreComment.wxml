@@ -1,0 +1,65 @@
+<!--pages/moreComment/moreComment.wxml-->
+<!-- 评论模块 -->
+<view class="comment-box">
+  <view class="user-comment-box" wx:for="{{commentInfo}}" wx:if="{commentInfo.length != 0}" wx:key="*this">
+    <view class="comment-item">
+      <view class="user-header">
+        <image class="user-header-pic" src="{{item.user_header}}"></image>
+      </view>
+      <view class="user-comment-detail">
+        <view class="user-name">{{item.user_name}}</view>
+        <view class="user-content">{{item.user_comment}}</view>
+        <view class="user-publish-time">{{item.comment_time}}</view>
+      </view>
+      <ul class="stars" wx:if="{{item.score == 0}}">
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+      </ul>
+      <ul class="stars" wx:elif="{{item.score == 1}}">
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+      </ul>
+      <ul class="stars" wx:elif="{{item.score == 2}}">
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+      </ul>
+      <ul class="stars" wx:elif="{{item.score == 3}}">
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+      </ul>
+      <ul class="stars" wx:elif="{{item.score == 4}}">
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/dark-star.png"></image></li>
+      </ul>
+      <ul class="stars" wx:else>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+        <li><image class="stars-pic" src="/pages/images/star.png"></image></li>
+      </ul>
+    </view>
+    <view class="interval"></view>
+  </view>
+</view>
+<view class="tip" wx:if="{{!hasMore}}">
+    已经拉到底啦...
+  </view>
+  <view class="tip" wx:if="{{hasMore && commentInfo.length > 0}}">
+    正在拼命加载...
+  </view>

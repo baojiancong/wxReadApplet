@@ -1,0 +1,28 @@
+<!--pages/bookShelf/bookShelf.wxml-->
+<!-- 书架信息 -->
+<view class="book-shelf" wx:if="{{hasLogin}}"  scroll-y="{{isScroll}}">
+  <view class="addBook">
+    <view class="btn" catchtap="addNewBook"><span>添加图书</span></view>
+  </view>
+  <scroll-view class="scrollbox" wx:if="{{!noBook}}">
+    <view class="book-item" wx:for="{{shelfInfo}}" bindtap="goBookDetail" data-id="{{item.novel_id}}" data-name="{{item.novel_name}}" data-index="{{index}}" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"  style="right:{{item.right}}rpx">
+      <image class="book-cover-main" src="{{item.novel_cover}}" ></image>
+      <view class="book-detail">
+        <span style="font-weight:bold">{{item.novel_name}}</span>
+        <span>读至:第{{item.curChapter ? item.curChapter+1 : '1'}}章</span>
+      </view>
+      <view class="del" catchtap="delBook" data-index="{{index}}"><span>删除</span></view>
+    </view>
+  </scroll-view>
+  <view class="noBook-style" wx:else>
+    书架是空的，快去添加图书吧！
+  </view>
+</view>
+<!-- 未登录 -->
+<view class="unLogin" wx:if="{{!hasLogin}}"> 
+  <view class="user-info">
+    <image class="header" src="/pages/images/unLogin.png"></image>
+    <view class="title">未登录</view>
+  </view>
+  <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">微信授权登陆</button>
+</view>

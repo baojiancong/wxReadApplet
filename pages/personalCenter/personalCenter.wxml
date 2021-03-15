@@ -1,0 +1,33 @@
+<!--pages/personalCenter/personalCenter.wxml-->
+<!-- 用户未授权登陆样式 -->
+<view class="unLogin" wx:if="{{!hasLogin}}"> 
+  <view class="user-info">
+    <image class="header" src="/pages/images/unLogin.png"></image>
+    <view class="title">未登录</view>
+  </view>
+  <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">微信授权登陆</button>
+</view>
+
+<!-- 登陆样式 -->
+<view class="main" wx:if="{{hasLogin}}">
+  <view class="main-user-info">
+    <view class="box1">
+      <image class="header-pic" src="{{userinfo.avatarUrl}}"></image>
+      <text>{{userinfo.nickName}}</text>
+    </view>
+  </view>
+  <view class="user-bar">
+    <view class="my-item" bindtap="clear">
+      <view class="my-item-top">
+        <view class="my-item-name">清除缓存</view>
+      </view>
+      <view class="line"></view>
+    </view>
+    <view class="my-item" bindtap="logOut">
+      <view class="my-item-top">
+        <view class="my-item-name">退出登录</view>
+      </view>
+      <view class="line"></view>
+    </view>
+  </view>
+</view>

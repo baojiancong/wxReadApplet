@@ -1,0 +1,76 @@
+/* pages/allBook/allBook.wxss */
+.book-shadow{
+  width: 100%;
+  background: #1E90FF;
+}
+.book-box{
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius:1rem 1rem  0 0;
+  box-shadow:inset 0 15px 10px -15px rgba(0, 0, 0, .2);
+  display: flex;
+  flex-direction: column;
+}
+.title{
+  width: 100%;
+  height: 4rem;
+  border-radius: 1rem 1rem 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-info{
+  width: 100%;
+  flex:1;
+  display: flex;
+}
+.left{
+  width: 30%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 1rem 0 0 0;
+}
+.tab-item{
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.logo{
+  position: absolute;
+  width: 5%;
+  height: 60%;
+  left:0;
+  background: #1E90FF;
+  display: none;
+}
+.right{
+  width: 70%;
+  height: 37rem;
+}
+.book-item{
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+}
+.book-left{
+  width: 30%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+}
+.book-cover{
+  width: 80%;
+  height: 100%; 
+}
+.book-right{
+  display: flex;
+  flex: 1;
+  height: 90%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
