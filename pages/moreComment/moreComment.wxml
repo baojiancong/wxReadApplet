@@ -1,7 +1,7 @@
 <!--pages/moreComment/moreComment.wxml-->
 <!-- 评论模块 -->
 <view class="comment-box">
-  <view class="user-comment-box" wx:for="{{commentInfo}}" wx:if="{commentInfo.length != 0}" wx:key="*this">
+  <view class="user-comment-box" wx:for="{{commentInfo}}" wx:if="{commentInfo.length != 0}" wx:key="index">
     <view class="comment-item">
       <view class="user-header">
         <image class="user-header-pic" src="{{item.user_header}}"></image>

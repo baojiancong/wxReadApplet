@@ -21,11 +21,13 @@ Page({
       title: '首页',
     })
     wx.request({
-      url: 'http://47.102.201.120:8080/getRecommend',
+      url: 'https://www.bjccc.top/novel/getRecommend',
       success(res){
-          that.setData({
-            recommendList : res.data
-          })
+          if(res.data.code == 'success'){
+            that.setData({
+              recommendList : res.data.result
+            })
+          }
       },
       fail(){
         that.setData({
@@ -34,16 +36,18 @@ Page({
       }
     });
     wx.request({
-      url: 'http://47.102.201.120:8080/getRank',
+      url: 'https://www.bjccc.top/novel/getRank',
       success(res){
-        let carouselList = []
-        for(var i=0;i<3;i++){
-          carouselList = carouselList.concat(res.data[i])
+        if(res.data.code == 'success'){
+          let carouselList = []
+          for(var i=0;i<3;i++){
+            carouselList = carouselList.concat(res.data.result[i])
+          }
+          that.setData({
+            rankList: res.data.result,
+            carouselList
+          })
         }
-        that.setData({
-          rankList: res.data,
-          carouselList
-        })
       },
       fail(){
         that.setData({

@@ -5,13 +5,13 @@
     <view class="title"><span style="font-weight:bold;font-size:1.2rem">书库</span></view>
     <view class="box-info">
       <view class="left">
-        <view class="tab-item" wx:for="{{typeList}}" wx:key="{{index}}" data-index="{{index}}" style="background:{{item.active ? 'white' : 'rgba(0, 0, 0, .1)'}}" bindtap="chooseChanel">
+        <view class="tab-item" wx:for="{{typeList}}" wx:key="index" data-index="{{index}}" style="background:{{item.active ? 'white' : 'rgba(0, 0, 0, .1)'}}" bindtap="chooseChanel">
           <span class="logo" style="display:{{item.active ? 'block' : 'none'}}"></span>
           <span class="type" style="color:{{item.active ? '#1E90FF' : '#000000'}}">{{item.type}}</span>
         </view>
       </view>
       <scroll-view class="right" scroll-y="true" lower-threshold="1"  bindscrolltolower="bindDownLoad">
-        <view class="book-item" wx:for="{{bookList}}" wx:key="{{index}}" bindtap="goDetail" data-item="{{item}}">
+        <view class="book-item" wx:for="{{bookList}}" wx:key="index" bindtap="goDetail" data-item="{{item}}">
           <view class="book-left">
             <image class="book-cover" src="{{item.novel_cover}}"></image>
           </view>

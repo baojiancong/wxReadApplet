@@ -21,39 +21,28 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    const that = this
     wx.setNavigationBarTitle({
       title: '个人中心',
     })
-    const that = this
-    // 查看用户是否授权登陆
-    wx.getSetting({
-      success(res){
-        console.log(res)
-        if(res.authSetting['scope.userInfo']){
-          wx.getUserInfo({
-            lang: 'zh_CN',
-            success(res){
-              that.setData({
-                userinfo:res.userInfo,
-                hasLogin:true
-              })
-            }
-          })
-        }else{
-          that.setData({
-            hasLogin:false,
-            userinfo:[]
-          })
-        }
-      },
-    })
+    if(app.globalData.userInfo){
+      that.setData({
+        userinfo:app.globalData.userInfo,
+        hasLogin:true
+      })
+    }else{
+      that.setData({
+        hasLogin:false,
+        userinfo:[]
+      })
+    }
   },
 
   /**
@@ -90,61 +79,6 @@ Page({
   onShareAppMessage: function () {
 
   },
-  bindgetuserinfo:function(res){
-    const that = this
-    // 如果接受授权
-    if(res.detail.userInfo){
-      app.globalData.userInfo = res.detail.userInfo
-      if(app.globalData.bookInfo){
-        const bookinfo = app.globalData.bookInfo.bookinfo
-        wx.showToast({
-          title: '授权登录成功',
-        })
-        setTimeout(()=>{
-          wx.navigateTo({
-            url: `/pages/bookDetail/bookDetail?bookinfo=${bookinfo}`,
-          },()=>{
-            that.setData({
-              hasLogin:true,
-            })
-          })
-          app.globalData.bookInfo = null
-        },1500)
-      }else{
-        wx.showToast({
-          title: '授权登录成功',
-        })
-        setTimeout(()=>{
-          that.setData({
-            hasLogin:true
-          })
-          wx.setNavigationBarTitle({
-            title: '个人中心',
-          })
-          wx.getUserInfo({
-            lang: 'zh_CN',
-            success(res){
-              that.setData({
-                userinfo:res.userInfo
-              })
-              wx.request({
-                url: 'http://47.102.201.120:8080/addUserInfo',
-                data:{
-                  nickName:res.userInfo.nickName,
-                  gender:res.userInfo.gender,
-                  city:res.userInfo.city,
-                  avatarUrl:res.userInfo.avatarUrl
-                },
-                success(res){
-                  console.log(res.data)
-                }
-              })
-            }
-          }) 
-        },1500)
-      }
-    }
-  },
 
   // 清除缓存
   clear:function(){
@@ -166,10 +100,58 @@ Page({
       }}
     })
   },
+
+  // 用户登录
+  userLogin:function(e){
+      const that = this
+      wx.getUserProfile({
+      desc: '用户授权登录', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        that.setData({
+          userinfo: res.userInfo,
+          hasLogin: true
+        })
+        wx.setStorage({
+          data: res.userInfo,
+          key: 'userinfo',
+        })
+        app.globalData.userInfo = res.userInfo
+        wx.getStorage({
+          key: '3rd_sessionId',
+          success(res){
+            wx.request({
+              url: 'https://www.bjccc.top/user/addUser',
+              data:{
+                openid:res.data,
+                nickName:app.globalData.userInfo.nickName,
+                city:app.globalData.userInfo.city,
+                gender:app.globalData.userInfo.gender,
+                avatarUrl:app.globalData.userInfo.avatarUrl
+              },
+              success(res){
+                console.log(res)
+              }
+            })
+          }
+        })
+      },
+      fail(){
+          console.log('用户拒绝')
+      }
+    })
+  },
+
   // 退出登录
   logOut:function(){
-    wx.openSetting({
-      withSubscriptions: true,
+    wx.removeStorage({
+      key: 'userinfo',
     })
-  }
+    app.globalData.userInfo = null
+    wx.showToast({
+      title: '退出登录成功',
+    })
+    setTimeout(() => {
+      this.onShow()
+    }, 1500);
+  },
 })

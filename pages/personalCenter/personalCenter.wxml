@@ -5,7 +5,8 @@
     <image class="header" src="/pages/images/unLogin.png"></image>
     <view class="title">未登录</view>
   </view>
-  <button class="login-btn" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo">微信授权登陆</button>
+  <!-- <button class="login-btn" bindtap="userLogin">微信授权登陆</button> -->
+  <button class="login-btn"  bindtap="userLogin">微信授权登陆</button>
 </view>
 
 <!-- 登陆样式 -->

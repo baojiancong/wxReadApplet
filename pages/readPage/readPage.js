@@ -32,24 +32,23 @@ Page({
    */
   onLoad: function (options) {
     const that = this
+    that.setData({
+      bookId:options.bookId
+    })
     // 判断用户是否授权登录
-    wx.getSetting({
-      withSubscriptions: true,
-      success(res){
-        if(res.authSetting['scope.userInfo']){
-          console.log('登录')
+        if(app.globalData.userInfo){
           that.setData({
             hasLogin:true
           })
             // 查看书籍是否在书架中
             wx.request({
-              url: 'http://47.102.201.120:8080/checkBookShelf',
+              url: 'https://www.bjccc.top/user/checkBookShelf',
               data:{
                 userName:app.globalData.userInfo.nickName,
                 bookId:that.data.bookId
               },
               success(res){
-                if(res.data.length != 0){
+                if(res.data.code == 'success' && res.data.result.length != 0){
                   that.setData({
                     hasInShelf:true
                   })
@@ -57,16 +56,11 @@ Page({
               }
             })
         }else{
-          console.log('未登录')
           that.setData({
             hasLogin:false
           })
         }
-      }
-    })
-    that.setData({
-      bookId:options.bookId
-    })
+
     wx.getStorage({
       key: 'fontSize',
       success(res){
@@ -78,7 +72,6 @@ Page({
     wx.getStorage({
       key: 'bookShelf',
       success(res){
-        console.log(res.data)
        for(var i in res.data){
          if(res.data[i].bookId == that.data.bookId){
            that.setData({
@@ -99,15 +92,15 @@ Page({
     })
     // 获得第一章内容 如果有缓存 则读取缓存章节。
     wx.request({
-      url: 'http://47.102.201.120:8080/getChapter',
+      url: 'https://www.bjccc.top/novel/getChapter',
       data:{
         bookId:options.bookId,
         chapterId: that.data.curChapter
       },
       success(res){
         that.setData({
-          chapterInfo:res.data[0],
-          chapterContent:app.textHandle(res.data[0].chapter_content),
+          chapterInfo:res.data.result[0],
+          chapterContent:app.textHandle(res.data.result[0].chapter_content),
         },()=>{
           that.setData({
             showNextBtn:true,
@@ -118,13 +111,13 @@ Page({
     })
     // 取章节目录
     wx.request({
-      url: 'http://47.102.201.120:8080/getCatalog',
+      url: 'https://www.bjccc.top/novel/getCatalog',
       data:{
         bookId:options.bookId,
       },
       success(res){
         that.setData({
-          catalogInfo:res.data
+          catalogInfo:res.data.result
         })
       }
     })
@@ -178,7 +171,6 @@ Page({
               if(res.data[i].bookId == that.data.bookId){
                 res.data[i].storageTop = that.data.storageTop
                 res.data[i].curChapter = that.data.curChapter
-                console.log(res.data)
                 wx.setStorage({
                   data: res.data,
                   key: 'bookShelf',
@@ -309,16 +301,15 @@ Page({
     const that = this
     if(that.data.curChapter >= 1){
       wx.request({
-        url: 'http://47.102.201.120:8080/getChapter',
+        url: 'https://www.bjccc.top/novel/getChapter',
         data:{
           bookId:that.data.bookId,
           chapterId: that.data.curChapter - 1
         },
         success(res){
-          console.log(res)
           that.setData({
-            chapterInfo:res.data[0],
-            chapterContent:app.textHandle(res.data[0].chapter_content),
+            chapterInfo:res.data.result[0],
+            chapterContent:app.textHandle(res.data.result[0].chapter_content),
             curChapter: that.data.curChapter - 1
           })
         }
@@ -335,16 +326,16 @@ Page({
   nextChapter:function(){
     const that = this
     wx.request({
-      url: 'http://47.102.201.120:8080/getChapter',
+      url: 'https://www.bjccc.top/novel/getChapter',
       data:{
         bookId:that.data.bookId,
         chapterId: that.data.curChapter + 1
       },
       success(res){
-        if(res.data.length != 0){
+        if(res.data.result.length != 0){
           that.setData({
-            chapterInfo:res.data[0],
-            chapterContent:app.textHandle(res.data[0].chapter_content),
+            chapterInfo:res.data.result[0],
+            chapterContent:app.textHandle(res.data.result[0].chapter_content),
             curChapter: that.data.curChapter + 1,
             scrollTop:0,
           })
@@ -369,16 +360,16 @@ Page({
       })
     }else{
       wx.request({
-        url: 'http://47.102.201.120:8080/getChapter',
+        url: 'https://www.bjccc.top/novel/getChapter',
         data:{
           bookId:that.data.bookId,
           chapterId: that.data.sort ? chapterSel : that.data.catalogInfo.length-1-chapterSel
         },
         success(res){
-          if(res.data.length != 0){
+          if(res.data.result.length != 0){
               that.setData({
-                chapterInfo:res.data[0],
-                chapterContent:app.textHandle(res.data[0].chapter_content),
+                chapterInfo:res.data.result[0],
+                chapterContent:app.textHandle(res.data.result[0].chapter_content),
                 scrollTop:that.data.scrollTop == 0 ? -1 : 0,
                 curChapter: that.data.sort ? chapterSel : that.data.catalogInfo.length-1-chapterSel,
                 catalogPop:false,
@@ -392,34 +383,56 @@ Page({
   // 加入书架
   addShelf:function(){
     const that = this
-    let {bookId} = that.data
-      wx.request({
-        url: 'http://47.102.201.120:8080/addUserShelf',
-        data:{
-          userName:app.globalData.userInfo.nickName,
-          bookId
-        },
-        success(res){
-          if(res.data.affectedRows == 1){
-            wx.showToast({
-              title: '加入书架成功',
-              icon:'none'
-            })
-            that.setData({
-              hasInShelf:true
-            })
+      if(app.globalData.userInfo){
+        let {bookId} = that.data
+        wx.request({
+          url: 'https://www.bjccc.top/user/addUserShelf',
+          data:{
+            userName:app.globalData.userInfo.nickName,
+            bookId
+          },
+          success(res){
+            if(res.data.code == 'success'){
+              wx.showToast({
+                title: '加入书架成功',
+                icon:'none'
+              })
+              that.setData({
+                hasInShelf:true
+              })
+            }
           }
-        }
-      })
+        })
+      }else{
+        wx.getUserProfile({
+          desc: '用户授权登录', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+          success: (res) => {
+            wx.setStorage({
+              data: res.userInfo,
+              key: 'userinfo',
+            })
+            app.globalData.userInfo = res.userInfo
+            wx.request({
+              url: 'https://www.bjccc.top/user/checkBookShelf',
+              data:{
+                userName:app.globalData.userInfo.nickName,
+                bookId:that.data.bookId
+              },
+              success(res){
+                if(res.data.code == 'success' && res.data.result.length != 0){
+                  that.setData({
+                    hasInShelf:true,
+                    hasLogin:true
+                  })
+                }
+              }
+            })
+          },
+          fail(){
+            console.log('用户拒绝')
+          }
+        })
+      }
   },
-  bindgetuserinfo:function(res){
-    const that = this
-    // 如果同意
-    if(res.detail.userInfo){
-      app.globalData.userInfo = res.detail.userInfo
-      that.setData({
-        hasLogin:true
-      })
-    }
-  }
+
 })

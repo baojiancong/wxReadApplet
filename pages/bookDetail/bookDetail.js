@@ -68,77 +68,52 @@ Page({
     })
     // 获得评论展示数据
     wx.request({
-      url: 'http://47.102.201.120:8080/getComment',
+      url: 'https://www.bjccc.top/comment/getCommentPart',
       data:{
         id:bookinfo.novel_id
       },
       success(res){
-        if(res.data.length > 0){
-          for(var i in res.data){
-            res.data[i].comment_time = that.rTime(res.data[i].comment_time)
+        if(res.data.code == 'success'){
+          if(res.data.result.length > 0){
+            for(var i in res.data.result){
+              res.data.result[i].comment_time = that.rTime(res.data.result[i].comment_time)
+            }
           }
+          that.setData({
+            commentinfo:res.data.result,
+          })
         }
-        that.setData({
-          commentinfo:res.data,
-        })
       }
     })
     // 获得收藏数量
     wx.request({
-      url: 'http://47.102.201.120:8080/bookWish',
+      url: 'https://www.bjccc.top/function/bookWish',
       data:{
         bookId:bookinfo.novel_id
       },
       success(res){
-        that.setData({
-          wishCount:res.data[0].kk
-        })
+        if(res.data.code == 'success'){
+          that.setData({
+            wishCount:res.data.result[0].kk
+          })
+        }
       }
     })
     // 获得所有评论数据
     wx.request({
-      url: 'http://47.102.201.120:8080/getCommentAll',
+      url: 'https://www.bjccc.top/comment/getCommentAll',
       data:{
         id:bookinfo.novel_id
       },
       success(res){
-        let hots = 0
-        for(var i in res.data){
-          hots += Number(res.data[i].score)
-        }
-        that.setData({
-          commentCount:res.data.length,
-          hots:hots
-        })
-      }
-    }),
-
-    // 判断用户是否授权登录
-    wx.getSetting({
-      withSubscriptions: true,
-      success(res){
-        if(res.authSetting['scope.userInfo']){
+        if(res.data.code == 'success'){
+          let hots = 0
+          for(var i in res.data.result){
+            hots += Number(res.data.result[i].score)
+          }
           that.setData({
-            hasLogin:true
-          })
-          // 查看书籍是否在书架中
-            wx.request({
-              url: 'http://47.102.201.120:8080/checkBookShelf',
-              data:{
-                userName:app.globalData.userInfo.nickName,
-                bookId:that.data.bookinfo.novel_id
-              },
-              success(res){
-                if(res.data.length != 0){
-                  that.setData({
-                    hasBook:true
-                  })
-                }
-              }
-            })
-        }else{
-          that.setData({
-            hasLogin:false
+            commentCount:res.data.result.length,
+            hots:hots
           })
         }
       }
@@ -169,7 +144,31 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    const that = this
+    if(app.globalData.userInfo){
+      that.setData({
+        hasLogin:true
+      })
+      // 查看书籍是否在书架中
+        wx.request({
+          url: 'https://www.bjccc.top/user/checkBookShelf',
+          data:{
+            userName:app.globalData.userInfo.nickName,
+            bookId:that.data.bookinfo.novel_id
+          },
+          success(res){
+            if(res.data.result.length != 0){
+              that.setData({
+                hasBook:true
+              })
+            }
+          }
+        })
+    }else{
+      that.setData({
+        hasLogin:false
+      })
+    }
   },
 
   /**
@@ -215,32 +214,30 @@ Page({
   // 去写评论
   writeComment:function(){
     const that = this
-    wx.getSetting({
-      success(res){
-        if(!res.authSetting['scope.userInfo']){
-          wx.showModal({
-            title:'注意',
-            content:'您需要先授权登录才能进行评论!',
-            showCancel:false,
-            confirmText:'前往登录',
-            success:function(res){
-            if (res.confirm){
-              var pages = getCurrentPages()    //获取加载的页面
-              var currentPage = pages[pages.length-1]    //获取当前页面的对象
-              var options = currentPage.options    //如果要获取url中所带的参数可以查看options
-              app.globalData.bookInfo = options          
-              wx.switchTab({
-                url: `../personalCenter/personalCenter`,
-              })
-            }}
-          })
-        }else{
-          that.setData({
-            showPop:true
-          })
-        }
+    if(!app.globalData.userInfo){
+      wx.getUserProfile({
+      desc: '用户授权登录', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        that.setData({
+          userinfo: res.userInfo,
+          showPop:true
+        })
+        wx.setStorage({
+          data: res.userInfo,
+          key: 'userinfo',
+        })
+        app.globalData.userInfo = res.userInfo
+        that.onShow()
+      },
+      fail(){
+          return;
       }
     })
+    }else{
+      that.setData({
+        showPop:true
+      })
+    }
   },
   // 五角星评分
   score:function(e){
@@ -288,13 +285,13 @@ Page({
       })
     }else{
       let userInput = ''
-      if(that.data.userComment === ''){
+      if(that.data.userComment.trim() === ''){
         userInput = that.data.stars[that.data.starScore].tip
       }else{
         userInput = that.data.userComment
       }
       wx.request({
-        url: 'http://47.102.201.120:8080/userComment',
+        url: 'https://www.bjccc.top/comment/publishComment',
         data:{
           id : bookId,
           comment : userInput,
@@ -303,7 +300,7 @@ Page({
           header : app.globalData.userInfo.avatarUrl
         },
         success(res){
-          if(res.data == 'success'){
+          if(res.data.code == 'success'){
             wx.showToast({
               title: '发表成功',
               icon:'none'
@@ -340,8 +337,39 @@ Page({
 
   //转换时间格式
    rTime:function(date){
-    var json_date = new Date(date).toJSON();
-    return new Date(new Date(json_date) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') 
+     var d = new Date(date)
+     var month = d.getMonth()+1
+     var day = d.getDate()
+     var hour = d.getHours()
+     var min = d.getMinutes()
+     var sec = d.getSeconds()
+     var result = d.getFullYear() + '/'
+     if(month<10){
+        result += '0' + month + '/'
+     }else{
+       result += month + '/'
+     }
+     if(day<10){
+        result += '0' + day + ' '
+     }else{
+        result += day + ' '
+     }
+     if(hour<10){
+      result += '0' + hour + ':'
+    }else{
+      result += hour + ':'
+    }
+    if(min<10){
+      result += '0' + min + ':'
+    }else{
+      result += min + ':'
+    }
+    if(sec<10){
+      result += '0' + sec
+    }else{
+      result += sec
+    }
+    return result
   },
 
   //跳转到所有评论页面
@@ -362,35 +390,38 @@ Page({
     })
   },
   // 未登录 点击加入书架授权
-  bindgetuserinfo:function(res){
+  userLogin:function(){
     const that = this
-    if(res.detail.userInfo){
-      app.globalData.userInfo = res.detail.userInfo
-      wx.showToast({
-        title: '登录成功',
-        icon:'none'
-      })
-      setTimeout(() => {
+    wx.getUserProfile({
+      desc: '用户授权登录', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
         that.setData({
+          userinfo: res.userInfo,
           hasLogin:true
         })
-        this.onLoad()
-      }, 1500);
-
-    }
+        wx.setStorage({
+          data: res.userInfo,
+          key: 'userinfo',
+        })
+        app.globalData.userInfo = res.userInfo
+        that.onShow()
+      },
+      fail(){
+          return;
+      }
+    })
   },
   // 加入书架
   addBook:function(){
     const that = this
-    console.log(1111)
     wx.request({
-      url: 'http://47.102.201.120:8080/addUserShelf',
+      url: 'https://www.bjccc.top/user/addUserShelf',
       data:{
         userName:app.globalData.userInfo.nickName,
         bookId:that.data.bookinfo.novel_id
       },
       success(res){
-        if(res.data == 'success'){
+        if(res.data.code == 'success'){
           wx.showToast({
             title: '加入书架成功',
             icon:'none'

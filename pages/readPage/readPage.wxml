@@ -7,7 +7,7 @@
     <span class="title">{{chapterInfo.chapter_name}}</span>
   </view>
   <view class="body" scroll-y='true'>
-    <p class="paragraph" wx:for="{{chapterContent}}" wx:key="{{index}}">{{item}}</p>
+    <p class="paragraph" wx:for="{{chapterContent}}" wx:key="index">{{item}}</p>
   </view>
   <view class="next" catchtap="nextChapter" wx:if="{{showNextBtn}}">
     <span>下一章</span>
@@ -20,7 +20,7 @@
       <image src="/pages/images/catalog.png"></image>
       <span>目录</span>
     </view>
-    <button class="item" wx:if="{{!hasLogin}}" open-type="getUserInfo" bindgetuserinfo="bindgetuserinfo" style="background:{{isDay == true ? 'white' : '#696969'}}">
+    <button class="item" wx:if="{{!hasLogin}}"  catchtap="addShelf" style="background:{{isDay == true ? 'white' : '#696969'}}">
       <image src="/pages/images/join-shelf.png"></image>
       <span>加书架</span>
     </button>
@@ -61,7 +61,7 @@
     <span wx:if="{{sort}}" bindtap="sort">倒序</span>
     <span wx:else bindtap="sort">正序</span>
   </view>
-  <view class="catalog-item" wx:for="{{catalogInfo}}" data-index="{{index}}" wx:key="{{index}}" catchtap="chooseChapter" >
+  <view class="catalog-item" wx:for="{{catalogInfo}}" data-index="{{index}}" wx:key="index" catchtap="chooseChapter" >
     <span style="color:{{sort ? index == curChapter ? 'blue' : 'black' : catalogInfo.length-1 - index == curChapter ? 'blue' : 'black'}}">{{item.chapter_name}}</span>
   </view>
 </scroll-view>

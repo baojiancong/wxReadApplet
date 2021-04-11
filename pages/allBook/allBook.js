@@ -29,20 +29,20 @@ Page({
 
     let {pageNo,pageSize} = that.data
     wx.request({
-      url: 'http://47.102.201.120:8080/getMore',
+      url: 'https://www.bjccc.top/novel/getMore',
       data:{
         pageNo,
         pageSize,
       },
       success(res){
-        if(res.data.length < pageSize || res.data.length == 0){
+        if(res.data.result.length < pageSize || res.data.result.length == 0){
           that.setData({
             tip:false,
             hasMore:false
           })
         }
         that.setData({
-          bookList:res.data,
+          bookList:res.data.result,
           pageNo:pageNo+1
         })
       }
@@ -103,22 +103,21 @@ Page({
   bindDownLoad:function(){
     const that = this
     let {bookList,pageNo,pageSize,hasMore} = that.data
-    console.log(pageNo)
     if(hasMore){
       wx.request({
-        url: 'http://47.102.201.120:8080/getMore',
+        url: 'https://www.bjccc.top/novel/getMore',
         data:{
           pageNo,
           pageSize
         },
         success(res){
-          if(res.data.length < pageSize || res.data.length == 0){
+          if(res.data.result.length < pageSize || res.data.result.length == 0){
             that.setData({
               hasMore:false,
             })
           }
           that.setData({
-            bookList:bookList.concat(res.data),
+            bookList:bookList.concat(res.data.result),
             pageNo:pageNo+1,
           })
         }
@@ -159,14 +158,14 @@ Page({
       let type = typeList[index].type
 
       wx.request({
-        url: 'http://47.102.201.120:8080/getMore',
+        url: 'https://www.bjccc.top/novel/getMore',
         data:{
           pageNo:1,
           pageSize,
           type,
         },
         success(res){
-          if(res.data.length < pageSize || res.data.length == 0){
+          if(res.data.result.length < pageSize || res.data.result.length == 0){
             that.setData({
               hasMore:false
             })
@@ -176,7 +175,7 @@ Page({
             })
           }
           that.setData({
-            bookList:res.data
+            bookList:res.data.result
           })
         }
       })

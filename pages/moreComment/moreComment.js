@@ -24,23 +24,23 @@ Page({
       bookId:options.bookId
     })
     wx.request({
-      url: 'http://47.102.201.120:8080/getCommentMore',
+      url: 'https://www.bjccc.top/comment/getCommentMore',
       data:{
         pageNo:1,
         pageSize:that.data.pageSize,
         bookId:options.bookId
       },
       success(res){
-        if(res.data.length > 0){
-          for(var i in res.data){
-            res.data[i].comment_time = that.rTime(res.data[i].comment_time)
+        if(res.data.result.length > 0){
+          for(var i in res.data.result){
+            res.data.result[i].comment_time = that.rTime(res.data.result[i].comment_time)
           }
           that.setData({
-            commentInfo:res.data
+            commentInfo:res.data.result
           })
         }
         that.setData({
-          commentInfo:res.data
+          commentInfo:res.data.result
         })
       }
     })
@@ -52,12 +52,10 @@ Page({
 
     const maxHeight = wx.getSystemInfoSync().windowHeight
     var curHeight = "";
-    console.log(maxHeight)
     setTimeout(() => {
       let query = wx.createSelectorQuery();
       query.select('.comment-box').boundingClientRect(rect=>{
         curHeight = rect.height;
-        console.log(curHeight)
       }).exec();
     }, 100);
     if(curHeight<maxHeight){
@@ -100,27 +98,27 @@ Page({
     const that = this
     if(that.data.hasMore){
       wx.request({
-        url: 'http://47.102.201.120:8080/getCommentMore',
+        url: 'https://www.bjccc.top/comment/getCommentMore',
         data:{
           pageNo:that.data.pageNo,
           pageSize:that.data.pageSize,
           bookId:that.data.bookId
         },
         success(res){
-          if(res.data.length > 0 && res.data.length == 5){
+          if(res.data.result.resultlength > 0 && res.data.result.length == 5){
             for(var i in res.data){
-              res.data[i].comment_time = that.rTime(res.data[i].comment_time)
+              res.data.result[i].comment_time = that.rTime(res.data.result[i].comment_time)
             }
             that.setData({
-              commentInfo:that.data.commentInfo.concat(res.data),
+              commentInfo:that.data.commentInfo.concat(res.data.result),
               pageNo:that.data.pageNo + 1
             })
           }else{
-            for(var i in res.data){
-              res.data[i].comment_time = that.rTime(res.data[i].comment_time)
+            for(var i in res.data.result){
+              res.data.result[i].comment_time = that.rTime(res.data.result[i].comment_time)
             }
             that.setData({
-              commentInfo:that.data.commentInfo.concat(res.data),
+              commentInfo:that.data.commentInfo.concat(res.data.result),
               hasMore:false
             })
           }
@@ -137,7 +135,38 @@ Page({
   },
     //转换时间格式
     rTime:function(date){
-      var json_date = new Date(date).toJSON();
-      return new Date(new Date(json_date) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') 
-    },
+      var d = new Date(date)
+      var month = d.getMonth()+1
+      var day = d.getDate()
+      var hour = d.getHours()
+      var min = d.getMinutes()
+      var sec = d.getSeconds()
+      var result = d.getFullYear() + '/'
+      if(month<10){
+         result += '0' + month + '/'
+      }else{
+        result += month + '/'
+      }
+      if(day<10){
+         result += '0' + day + ' '
+      }else{
+         result += day + ' '
+      }
+      if(hour<10){
+       result += '0' + hour + ':'
+     }else{
+       result += hour + ':'
+     }
+     if(min<10){
+       result += '0' + min + ':'
+     }else{
+       result += min + ':'
+     }
+     if(sec<10){
+       result += '0' + sec
+     }else{
+       result += sec
+     }
+     return result
+   }
 })

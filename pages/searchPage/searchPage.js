@@ -81,13 +81,13 @@ Page({
     const that = this
     let value = e.detail.value
     wx.request({
-      url: 'http://47.102.201.120:8080/findBook',
+      url: 'https://www.bjccc.top/function/findBook',
       data:{
         value
       },
       success(res){
         that.setData({
-          bookList:res.data,
+          bookList:res.data.result,
           value
         })
       }
@@ -121,13 +121,13 @@ Page({
     let value = e.currentTarget.dataset.item
     const that = this
     wx.request({
-      url: 'http://47.102.201.120:8080/findBook',
+      url: 'https://www.bjccc.top/function/findBook',
       data:{
         value
       },
       success(res){
         that.setData({
-          bookList:res.data,
+          bookList:res.data.result,
           value
         })
       }

@@ -19,10 +19,10 @@ Page({
   onLoad: function (options) {
     const that = this;
     wx.request({
-      url: 'http://47.102.201.120:8080/getRank',
+      url: 'https://www.bjccc.top/novel/getRank',
       success(res){
         that.setData({
-          bookList:res.data
+          bookList:res.data.result
         })
       },
       fail(){
@@ -39,7 +39,6 @@ Page({
   onReady: function () {
     const maxHeight = wx.getSystemInfoSync().windowHeight
     var curHeight = "";
-    console.log(maxHeight)
     setTimeout(() => {
       let query = wx.createSelectorQuery();
       query.select('.book-list').boundingClientRect(rect=>{
@@ -88,16 +87,17 @@ Page({
   onReachBottom: function () {
     const that = this
     wx.request({
-      url: 'http://47.102.201.120:8080/getMore',
+      url: 'https://www.bjccc.top/novel/getMore',
       data:{
         pageNo:that.data.pageNo,
         pageSize:that.data.pageSize
       },
       success(res){
         if(that.data.hasMore){
-          if(res.data.length != 0){
+          if(res.data.result.length != 0){
             that.setData({
-              bookList:that.data.bookList.concat(res.data),
+            // that.data.bookList.concat(res.data.result)
+              bookList:[...that.data.bookList,...res.data.result],
               pageNo: that.data.pageNo+1
             })
           }else{

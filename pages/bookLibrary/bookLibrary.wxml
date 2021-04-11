@@ -3,7 +3,7 @@
   <!-- 顶部轮播图 -->
   <view class="top-carousel-map">
     <swiper class="carousel-map" indicator-dots="true" autoplay="true" interval="2000" duration="1000">
-      <block wx:for="{{carouselList}}" wx:key="*this">
+      <block wx:for="{{carouselList}}" wx:key="index">
         <swiper-item bindtap="goNovelDetail" data-bookinfo="{{item}}">
           <image class="carousel-map-img" src="{{item.novel_cover || '/pages/images/1.png'}}" alt="" />
         </swiper-item>
@@ -13,7 +13,7 @@
   <!-- 热门推荐 -->
     <view class="book-recommend">
       <view class="book-recommend-head">
-        <view class="book-recommend-title">热门推荐</view>
+        <view class="book-recommend-title">重磅推荐</view>
         <view class="book-recommend-more" bindtap="getMore">
           <span>更多</span>
           <span class="weui-icon-arrow"></span>
@@ -21,7 +21,7 @@
       </view>
         <view class="book-recommend-list">
           <view wx:if="{{!recommendData}}" class="noRequest">暂无推荐数据</view>
-          <view class="book-item" wx:for="{{recommendList}}" wx:key="novel_id" data-bookinfo="{{item}}" bindtap="goNovelDetail">
+          <view class="book-item" wx:for="{{recommendList}}" wx:key="index" data-bookinfo="{{item}}" bindtap="goNovelDetail">
             <image class="book-cover" src="{{item.novel_cover ? item.novel_cover : '/pages/images/noBook.png'}}"></image>
             <view class="book-name">{{item.novel_name}}</view>
           </view>
@@ -38,7 +38,7 @@
       </view>
       <view class="book-rank-list"> 
         <view wx:if="{{!rankData}}" class="noRequest">暂无排行数据</view>
-        <view class="book-rank-item" wx:for="{{rankList}}" wx:key="novel_id" data-bookinfo="{{item}}" bindtap="goNovelDetail">
+        <view class="book-rank-item" wx:for="{{rankList}}" wx:key="index" data-bookinfo="{{item}}" bindtap="goNovelDetail">
           <view class="book-rank-cover">
             <image class="book-rank-img" src="{{item.novel_cover ? item.novel_cover : '/pages/images/noBook.png'}}"></image>
           </view>

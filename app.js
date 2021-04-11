@@ -10,23 +10,39 @@ App({
       data: 12,
       key: 'fontSize',
     })
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    }),
-    wx.getSetting({
-      withSubscriptions: true,
+
+    wx.getStorage({
+      key: 'userinfo',
       success(res){
-        if(res.authSetting['scope.userInfo']){
-          wx.getUserInfo({
-            lang: 'zh_CN',
-            success(res){
-              that.globalData.userInfo = res.userInfo
-            }
-          })
+        if(res.data){
+          that.globalData.userInfo = res.data
         }
+      }
+    })
+
+    wx.checkSession({
+      success: (res) => {
+        console.log('登录成功')
+      },
+      fail(){
+    // 登录
+        wx.login({
+          success: res => {
+            // 发送 res.code 到后台换取 openId, sessionKey, unionId
+            wx.request({
+              url: 'https://www.bjccc.top/function/login',
+              data:{
+                code:res.code
+              },
+              success(res){
+                wx.setStorage({
+                  data: res.data.openid,
+                  key: '3rd_sessionId',
+                })
+              }
+            })
+          }
+        })
       }
     })
   },
@@ -36,7 +52,7 @@ App({
   },
   addHits:function(id){
     wx.request({
-      url: 'http://47.102.201.120:8080/addHits',
+      url: 'https://www.bjccc.top/function/addHits',
       data:{
         id:id,
       },
@@ -55,5 +71,5 @@ App({
          }
     }
     return res
-  }
+  },
 })
